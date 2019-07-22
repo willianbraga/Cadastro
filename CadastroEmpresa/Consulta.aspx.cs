@@ -15,6 +15,7 @@ namespace CadastroEmpresa
         SqlConnection con = null;
         string ConnectionString = @"Data Source=WILL-NOTE\SQLEXPRESS;Initial Catalog=FinanceiroDB;Integrated Security=True";
         PessoaEntity funcionario = new PessoaEntity();
+        EmpresaEntity empresa = new EmpresaEntity();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -22,16 +23,24 @@ namespace CadastroEmpresa
                 try
                 {
                     con = new SqlConnection(ConnectionString);
-                    SqlCommand cmdNome = new SqlCommand("SELECT PessoaID, PessoaNome, PessoaTel as funcionario FROM Pessoa", con);
+                    SqlCommand cmdFunc = new SqlCommand("SELECT PessoaID, PessoaNome, PessoaTel as funcionario FROM Pessoa", con);
                     con.Open();
                     SqlDataReader rd;
-                    rd = cmdNome.ExecuteReader();
+                    rd = cmdFunc.ExecuteReader();
                     ddlFuncionario.DataSource = rd;
                     ddlFuncionario.DataMember = "PessoaID";
                     ddlFuncionario.DataValueField = "funcionario";
                     ddlFuncionario.DataTextField = "PessoaNome";
-
                     ddlFuncionario.DataBind();
+
+                    SqlCommand cmdEmp = new SqlCommand("SELECT EmpresaID, EmpresaNome, EmpresaFat as empresa FROM Empresa", con);
+                    SqlDataReader rd1;
+                    rd1 = cmdEmp.ExecuteReader();
+                    ddlEmpresa.DataSource = rd1;
+                    ddlEmpresa.DataMember = "EmpresaID";
+                    ddlEmpresa.DataValueField = "empresa";
+                    ddlEmpresa.DataTextField = "EmpresaFat";
+                    ddlEmpresa.DataBind();
 
                 }
                 catch (Exception ex)
@@ -51,9 +60,16 @@ namespace CadastroEmpresa
             EmpresaPessoaModel model = new EmpresaPessoaModel();
             funcionario.nomPessoa = ddlFuncionario.SelectedItem.Text;
             lblNomeFuncionario.Text = funcionario.nomPessoa;
-            string telefone = model.GetTelFuncionario();
-            lblTelFuncionario.Text = telefone;
+            string tel = model.GetTelFuncionario(funcionario.nomPessoa);
+            lblTelFuncionario.Text = tel;
         }
-        
+
+        protected void btnSelEmpresa_Click(object sender, EventArgs e)
+        {
+            EmpresaPessoaModel model = new EmpresaPessoaModel();
+            empresa.nomEmpresa = ddlEmpresa.SelectedItem.Text;
+            string fat = model.GetFatEmpresa(empresa.nomEmpresa);
+            lblFatEmpresa.Text = fat;
+        }
     }
 }

@@ -20,11 +20,6 @@
                 <tr>
                     <td colspan="5" style="text-align: center;">
                         <h3>
-                            <%--                            <asp:SqlDataSource ID="SqlDataSource1" runat="server"
-                                ConnectionString="<%$ ConnectionStrings:FinanceiroDBConnectionString %>"
-                                SelectCommand="SELECT PessoaID, PessoaNome, PessoaTel FROM Pessoa">
-                            </asp:SqlDataSource>--%>
-
                             <asp:SqlDataSource ID="SqlDataSource2" runat="server"
                                 ConnectionString="<%$ ConnectionStrings:FinanceiroDBConnectionString %>"
                                 SelectCommand="SELECT [EmpresaNome] FROM [Empresa]"></asp:SqlDataSource>
@@ -54,7 +49,7 @@
                         </asp:DropDownList>
                     </td>
                     <td>
-                        <asp:Button Text="Selecionar Empresa" ID="btnSelEmpresa" runat="server" Width="200px" /></td>
+                        <asp:Button Text="Selecionar Empresa" ID="btnSelEmpresa" runat="server" Width="200px" OnClick="btnSelEmpresa_Click" /></td>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -87,7 +82,7 @@
                     </td>
                     <td></td>
                     <td>
-                        <asp:Label Text="Telefone:" runat="server" />
+                        <asp:Label Text="Faturamento:" runat="server" />
                         <asp:Label Text="" ID="lblFatEmpresa" runat="server" /></td>
                 </tr>
                 <tr>
