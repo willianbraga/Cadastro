@@ -15,7 +15,8 @@ namespace CadastroEmpresa.Models
 
         public void AdicionarContrato(EmpresaPessoaEntity contrato)
         {
-            string sqlCmd = "insert into EmpresaPessoa (EmpresaID , PessoaID, EmpresaPessoaExpec ) values (@EmpresaID , @PessoaID, @Expectativa)";
+            string sqlCmd = "insert into EmpresaPessoa (EmpresaID , PessoaID, EmpresaPessoaExpec ) " +
+                "values (@EmpresaID , @PessoaID, @Expectativa)";
 
             SqlConnection sqlConnection = new SqlConnection(ConnectionString);
             sqlConnection.Open();

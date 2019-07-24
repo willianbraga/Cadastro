@@ -46,14 +46,6 @@ namespace CadastroEmpresa
                     //ddlEmpresa.DataTextField = "EmpresaFat";
                     //ddlEmpresa.DataBind();
 
-                //    SqlCommand grid1 = new SqlCommand("SELECT EmpresaPessoa.EmpresaPessoaID, Pessoa.PessoaNome, " +
-                //        "Empresa.EmpresaNome, Empresa.EmpresaFaturamento, " +
-                //        "EmpresaPessoa.EmpresaPessoaExpec FROM EmpresaPessoa " +
-                //        "INNER JOIN Empresa ON EmpresaPessoa.EmpresaID = Empresa.EmpresaID " +
-                //        "INNER JOIN Pessoa ON EmpresaPessoa.PessoaID = Pessoa.PessoaID", con);
-                //    SqlDataReader rd1 = grid1.ExecuteReader();
-                //    gv1.DataSource = grid1;
-                //    gv1.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -101,17 +93,23 @@ namespace CadastroEmpresa
             empresa = contrato.GetEmpresa(empresa);
 
             if (lblNomeEmpresa.Text == "" || lblNomeFuncionario.Text == "")
-            {   
+            {
+                lblSalvo.Text = "Salvo com sucesso.";
+
                 lblErro.Text = "Por favor selecione os valores acima.";
                 return;
             }
             else if (txtExpectativa.Text == string.Empty)
             {
+                lblSalvo.Text = "Salvo com sucesso.";
+
                 lblErro.Text = "Por favor digite o valor de expectativa de faturamento.";
                 return;
             }
             else
             {
+                lblSalvo.Text = "Salvo com sucesso.";
+
                 cadastro.Expectativa = Convert.ToDouble(txtExpectativa.Text);
                 if (cadastro.Expectativa > empresa.fatEmpresa)
                 {
@@ -122,18 +120,21 @@ namespace CadastroEmpresa
                     cadastro.codEmpresa = empresa;
                     cadastro.codPessoa = funcionario;
                     contrato.AdicionarContrato(cadastro);
+                    ZerarValores();
+                    Response.Redirect("Consulta.aspx");
+                    lblSalvo.Text="Salvo com sucesso.";
                 }
             }
-//            select fun.PessoaNome, em.EmpresaNome, em.EmpresaFaturamento, emp.EmpresaPessoaExpec
-//from
+            //            select fun.PessoaNome, em.EmpresaNome, em.EmpresaFaturamento, emp.EmpresaPessoaExpec
+            //from
 
-//    EmpresaPessoa emp
+            //    EmpresaPessoa emp
 
-//    inner join Empresa em on emp.EmpresaID = em.EmpresaID
+            //    inner join Empresa em on emp.EmpresaID = em.EmpresaID
 
-//    inner join Pessoa fun on emp.PessoaID = fun.PessoaID
+            //    inner join Pessoa fun on emp.PessoaID = fun.PessoaID
 
-//    where emp.EmpresaPessoaID = (1)
+            //    where emp.EmpresaPessoaID = (1)
 
 
         }
@@ -141,6 +142,10 @@ namespace CadastroEmpresa
         protected void btnVoltar_Click(object sender, EventArgs e)
         {
             Response.Redirect("Index.aspx");
+        }
+        private void ZerarValores()
+        {
+            lblNomeFuncionario.Text = lblTelFuncionario.Text = lblNomeEmpresa.Text = lblFatEmpresa.Text = string.Empty;
         }
     }
 }

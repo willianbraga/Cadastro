@@ -10,6 +10,7 @@
         .auto-style1 {
             width: 203px;
         }
+
         .auto-style2 {
             width: 232px;
         }
@@ -27,9 +28,9 @@
                                 ConnectionString="<%$ ConnectionStrings:FinanceiroDBConnectionString %>"
                                 SelectCommand="SELECT * FROM [Empresa]"></asp:SqlDataSource>
 
-                            <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
-                                ConnectionString="Data Source=WILL-NOTE\SQLExpress;Initial Catalog=FinanceiroDB;Integrated Security=True" 
-                                ProviderName="System.Data.SqlClient" 
+                            <asp:SqlDataSource ID="SqlDataSource3" runat="server"
+                                ConnectionString="Data Source=WILL-NOTE\SQLExpress;Initial Catalog=FinanceiroDB;Integrated Security=True"
+                                ProviderName="System.Data.SqlClient"
                                 SelectCommand="SELECT EmpresaPessoa.EmpresaPessoaID, Pessoa.PessoaNome, Empresa.EmpresaNome, 
                                 Empresa.EmpresaFaturamento, EmpresaPessoa.EmpresaPessoaExpec FROM EmpresaPessoa 
                                 INNER JOIN Empresa ON EmpresaPessoa.EmpresaID = Empresa.EmpresaID 
@@ -113,17 +114,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="text-align:center">
+                    <td style="text-align: center">
                         <asp:Button Text="Salvar" ID="btnSalvar" runat="server" Height="30px" Width="100px" OnClick="btnSalvar_Click" /></td>
-                    <td style="text-align:center" class="auto-style2">
-                        <asp:Label Text="" ID="lblErro"  runat="server" ForeColor="Red" /></td>
-                    <td style="text-align:center">
-                        <asp:Button Text="Voltar" ID="btnVoltar" runat="server"  Height="30px" Width="100px" OnClick="btnVoltar_Click" /></td>
+                    <td style="text-align: center" class="auto-style2">
+                        <asp:Label Text="" ID="lblErro" runat="server" ForeColor="Red" />
+                        <br />
+                        <asp:Label Text="" ID="lblSalvo" ForeColor="Green" runat="server" /></td>
+                    <td style="text-align: center">
+                        <asp:Button Text="Voltar" ID="btnVoltar" runat="server" Height="30px" Width="100px" OnClick="btnVoltar_Click" /></td>
                 </tr>
             </table>
         </div>
         <div>
-            <table style="margin:auto">
+            <table style="margin: auto">
                 <tr>
                     <td colspan="5" style="width: 750px">
                         <hr />
@@ -134,40 +137,25 @@
                 </td>
                 <tr>
                     <td colspan="5" style="text-align: center">
-                        
-                        <%--<asp:GridView ID="GridView1" runat="server" DatakeyName="EmpresaPessoaID"
-                            onrowcancelingedit="EmpresaGV_RowCancelingEdit"
-                            onrowediting="EmpresaGV_RowEditing"
-                            onrowdeleting="EmpresaGV_RowDeleting"
-                            onrowupdating="EmpresaGV_RowUpdating">
 
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="margin:auto;text-align:center;align-content:center;align-items:center;">
+                        <h2>GridView feito pelo DATASOURCE</h2>
+
+                        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataKeyNames="EmpresaPessoaID" DataSourceID="SqlDataSource3">
                             <Columns>
-                                <asp:TemplateField HeaderText="Codigo">
-                                    <ItemTemplate>
-                                        <%#Container.DataItemIndex+1 %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Funcionario">
-                                    <ItemTemplate>
-                                        <%#Eval("PessoaNome")%>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="txtnomefuncionario" runat="server" Text='<%#Eval("PessoaNome") %>' />
-                                    </EditItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Empresa">
-                                    <ItemTemplate>
-                                        <%#Eval("EmpresaNome")%>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="txtnomefuncionario" runat="server" Text='<%#Eval("EmpresaNome") %>' />
-                                    </EditItemTemplate>
-                                </asp:TemplateField>
+                                <asp:BoundField DataField="EmpresaPessoaID" HeaderText="EmpresaPessoaID" InsertVisible="False" ReadOnly="True" SortExpression="EmpresaPessoaID" />
+                                <asp:BoundField DataField="PessoaNome" HeaderText="PessoaNome" SortExpression="PessoaNome" />
+                                <asp:BoundField DataField="EmpresaNome" HeaderText="EmpresaNome" SortExpression="EmpresaNome" />
+                                <asp:BoundField DataField="EmpresaFaturamento" HeaderText="EmpresaFaturamento" SortExpression="EmpresaFaturamento" />
+                                <asp:BoundField DataField="EmpresaPessoaExpec" HeaderText="EmpresaPessoaExpec" SortExpression="EmpresaPessoaExpec" />
                             </Columns>
-                        </asp:GridView>--%>
-                        
+                        </asp:GridView>
                     </td>
                 </tr>
+
             </table>
 
         </div>
