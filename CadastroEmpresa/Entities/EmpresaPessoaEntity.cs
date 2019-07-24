@@ -7,9 +7,9 @@ namespace CadastroEmpresa.Entities
 {
     public class EmpresaPessoaEntity
     {
-        public EmpresaEntity codpessoaEmpresa { get; set; }
-        public PessoaEntity codEmpresapessoa { get; set; }
-        public double codExpectativa { get; set; }
+        public EmpresaEntity codEmpresa { get; set; }
+        public PessoaEntity codPessoa { get; set; }
+        public double Expectativa { get; set; }
 
         public EmpresaPessoaEntity()
         {

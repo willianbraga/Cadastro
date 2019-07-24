@@ -13,58 +13,67 @@ namespace CadastroEmpresa.Models
         SqlConnection con = null;
         string ConnectionString = @"Data Source=WILL-NOTE\SQLEXPRESS;Initial Catalog=FinanceiroDB;Integrated Security=True";
 
-        public string GetTelFuncionario(string nome)
+        public void AdicionarContrato(EmpresaPessoaEntity contrato)
         {
-            PessoaEntity funcionario = new PessoaEntity();
-            try
+            string sqlCmd = "insert into EmpresaPessoa (EmpresaID , PessoaID, EmpresaPessoaExpec ) values (@EmpresaID , @PessoaID, @Expectativa)";
+
+            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+            sqlConnection.Open();
+            SqlCommand cmd = new SqlCommand(sqlCmd, sqlConnection);
+            cmd.Parameters.AddWithValue("@EmpresaID", contrato.codEmpresa.codEmpresa);
+            cmd.Parameters.AddWithValue("@PessoaID", contrato.codPessoa.codPessoa);
+            cmd.Parameters.AddWithValue("@Expectativa", contrato.Expectativa);
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+
+        public PessoaEntity GetFuncionario(PessoaEntity funcionario)
+        {
+            string query = "SELECT * FROM Pessoa WHERE PessoaID=@funcionarioID";
+
+            using (con = new SqlConnection(ConnectionString))
             {
-                string query = "SELECT PessoaTel FROM Pessoa WHERE PessoaNome = @PessoaNom";
-                var dt = new DataTable();
-                using (con = new SqlConnection(ConnectionString))
+                con.Open();
+                using (var cmdFun = new SqlCommand(query, con))
                 {
-                    con.Open();
-                    using (var cmdTel = new SqlCommand(query, con))
+                    cmdFun.Parameters.AddWithValue("@funcionarioID", funcionario.codPessoa);
+                    using (SqlDataReader reader = cmdFun.ExecuteReader())
                     {
-                        cmdTel.Parameters.AddWithValue("@PessoaNom", nome);
-                        SqlDataReader reader = cmdTel.ExecuteReader();
-                        dt.Load(reader);
-                        reader.Close();
+                        if (reader.Read())
+                        {
+                            funcionario.nomPessoa = reader["PessoaNome"].ToString();
+                            funcionario.telPessoa = reader["PessoaTel"].ToString();
+
+                        }
+                        return funcionario;
                     }
-                    con.Close();
                 }
-                string telefone = dt.Rows[0][0].ToString();
-                return telefone;
-            }
-            catch (SqlException)
-            {
-                return null;
             }
         }
-        public string GetFatEmpresa(string faturamento)
-        {
-            try
-            {
-                string query = "SELECT EmpresaFat FROM Empresa";
-                var dt = new DataTable();
-                using (con = new SqlConnection(ConnectionString))
-                {
-                    con.Open();
-                    using (var cmdfat = new SqlCommand(query,con))
-                    {
-                        cmdfat.Parameters.AddWithValue("@EmpresaFat", faturamento);
-                        SqlDataReader reader = cmdfat.ExecuteReader();
-                        dt.Load(reader);
-                    }
-                    con.Close();
-                }
-                string fat = dt.Rows[0][0].ToString();
-                return fat;
 
-            }
-            catch (SqlException)
+        public EmpresaEntity GetEmpresa(EmpresaEntity empresa)
+        {
+            string query = "SELECT * FROM Empresa WHERE EmpresaID=@EmpresaID";
+
+            using (con = new SqlConnection(ConnectionString))
             {
-                return null;
+                con.Open();
+                using (var cmdFun = new SqlCommand(query, con))
+                {
+                    cmdFun.Parameters.AddWithValue("@EmpresaID", empresa.codEmpresa);
+                    using (SqlDataReader reader = cmdFun.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            empresa.nomEmpresa = reader["EmpresaNome"].ToString();
+                            empresa.fatEmpresa = Convert.ToDouble(reader["EmpresaFaturamento"]);
+
+                        }
+                        return empresa;
+                    }
+                }
             }
+
         }
     }
 }
